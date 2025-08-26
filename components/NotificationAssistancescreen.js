@@ -5,19 +5,16 @@ import { View, Text, StyleSheet, ScrollView, useColorScheme,TouchableOpacity  } 
 export default function NotificationAssistanceScreen({ route , navigation}) {
   const [notifications, setNotifications] = useState([]);
   const [messages, setMessages] = useState([]);
-  const colorScheme = useColorScheme(); // Pour détecter le thème
+  const colorScheme = useColorScheme(); 
 
   useEffect(() => {
-    // Simuler des données si besoin
-    // Remplace ça par tes vraies données ou Redux/AsyncStorage/etc.
-
-    // Simuler des notifications
+   
     setNotifications([
       { id: 1, text: "Votre commande a été confirmée ✅" },
       { id: 2, text: "Rappel : Coiffure demain à 10h 💇‍♀️" },
     ]);
 
-    // Simuler une discussion
+    
     setMessages([
       { from: 'bot', text: "Bonjour, comment puis-je vous aider ?" },
       { from: 'user', text: "J'ai un souci avec ma réservation." },

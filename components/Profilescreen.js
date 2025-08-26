@@ -25,7 +25,7 @@ const ProfileScreen = ({ navigation }) => {
         if (item === 'Notifications & Assistance') {
           navigation.navigate('NotificationAssistance');
         }
-        // Tu peux ajouter d'autres navigations ici si tu veux
+        // ajouter d'autres navigations 
       }}
     >
       <Text style={styles.itemText}>{item}</Text>

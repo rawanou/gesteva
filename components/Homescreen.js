@@ -1,4 +1,4 @@
-// HomeScreen.js
+
 import React, { useRef, useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TextInput, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
@@ -53,7 +53,7 @@ export default function HomeScreen({ navigation, route }) {
     }
   }, [route?.params?.autoFocusSearch]);
 
-  // 🔍 filtrage en fonction du texte tapé
+  //  filtrage en fonction du texte tapé
   useEffect(() => {
     if (searchQuery.trim() === "") {
       setFilteredServices(popularServices);

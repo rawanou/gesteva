@@ -10,7 +10,6 @@ export default function LoginScreen({ navigation }) {
       return;
     }
 
-    // Si les champs sont remplis, on continue
     navigation.navigate('MainTabs'); };
 
   return (

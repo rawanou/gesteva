@@ -1,4 +1,4 @@
-// screens/CartScreen.js
+
 import React, { useContext } from "react";
 import {
   View,
@@ -13,7 +13,7 @@ import { CartContext } from "../context/CartContext";
 export default function CartScreen({ navigation }) {
   const { cart, removeFromCart } = useContext(CartContext);
 
-  // total : assure-toi que item.price est un nombre (le context le convertit à l'ajout)
+
   const total = cart.reduce((sum, item) => sum + Number(item.price || 0), 0);
 
   const renderItem = ({ item, index }) => (

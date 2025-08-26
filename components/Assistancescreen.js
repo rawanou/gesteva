@@ -39,7 +39,7 @@ export default function AssistanceScreen({ navigation }) {
     }, 1000);
   };
 
-  // 🔽 Scroll automatique vers le bas
+  // Scroll automatique vers le bas
   useEffect(() => {
     scrollViewRef.current?.scrollToEnd({ animated: true });
   }, [responses]);
