@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Image, TouchableOpacity,Alert } from 'react-native';
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+    const handleLogin = () => {
+    if (email.trim() === '' || password.trim() === '') {
+      Alert.alert('Champs requis', 'Veuillez remplir tous les champs.');
+      return;
+    }
+
+    // Si les champs sont remplis, on continue
+    navigation.navigate('MainTabs'); };
 
   return (
     <View style={styles.container}>
       {/* Image du haut */}
       <Image
-        source={require('../assets/GestevaLogo.png')} // Mets ton image ici
+        source={require('../assets/GestevaLogo.png')}
         style={styles.logo}
         resizeMode="contain"
       />
@@ -41,10 +49,7 @@ export default function LoginScreen({ navigation }) {
       </TouchableOpacity>
 
       {/* Bouton Se connecter → redirection vers Home */}
-      <TouchableOpacity 
-        style={styles.button}
-        onPress={() => navigation.navigate('MainTabs')} // 🔥 Redirection
-      >
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Se connecter</Text>
       </TouchableOpacity>
 

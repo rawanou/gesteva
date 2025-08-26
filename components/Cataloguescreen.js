@@ -1,15 +1,16 @@
 // CatalogueScreen.js
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   Image,
-  TouchableOpacity
+  TouchableOpacity,
 } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-const filters = ['Ménage', 'Coiffure', 'Massage', 'Coaching'];
+const filters = ['Tous', 'Ménage', 'Coiffure', 'Massage', 'Coaching'];
 
 const services = [
   {
@@ -18,19 +19,22 @@ const services = [
       {
         title: 'Nettoyage complet de la maison',
         description: 'Nettoyage en profondeur de toutes les pièces',
-        image: require('../assets/nettoyage.png')
+        image: require('../assets/nettoyage.png'),
+        price: '250 MAD',
       },
       {
         title: 'Nettoyage de printemps',
-        description: 'Nettoyage complet avec focus sur les zones difficiles',
-        image: require('../assets/nettoyage.png')
+        description: 'Focus sur les zones difficiles à atteindre',
+        image: require('../assets/nettoyage.png'),
+        price: '300 MAD',
       },
       {
         title: 'Nettoyage après travaux',
-        description: 'Nettoyage spécialisé après rénovation',
-        image: require('../assets/nettoyage.png')
-      }
-    ]
+        description: 'Spécialisé après rénovation',
+        image: require('../assets/nettoyage.png'),
+        price: '400 MAD',
+      },
+    ],
   },
   {
     category: 'Coiffure',
@@ -38,91 +42,130 @@ const services = [
       {
         title: 'Coupe de cheveux',
         description: 'Coupe personnalisée selon vos préférences',
-        image: require('../assets/coiffure.png')
+        image: require('../assets/coiffure.png'),
+        price: '150 MAD',
       },
       {
         title: 'Coloration',
         description: 'Coloration complète ou partielle',
-        image: require('../assets/coiffure.png')
+        image: require('../assets/coiffure.png'),
+        price: '200 MAD',
       },
       {
         title: 'Coiffure pour évènement',
-        description: 'Coiffure spéciale pour occasions spéciales',
-        image: require('../assets/coiffure.png')
-      }
-    ]
+        description: 'Spéciale pour mariages et soirées',
+        image: require('../assets/coiffure.png'),
+        price: '300 MAD',
+      },
+    ],
   },
   {
     category: 'Massage',
     items: [
       {
         title: 'Massage relaxant',
-        description: 'Massage pour détente et relaxation',
-        image: require('../assets/massage.png')
+        description: 'Détente et relaxation assurées',
+        image: require('../assets/massage.png'),
+        price: '250 MAD',
       },
       {
         title: 'Massage sportif',
-        description: 'Massage pour soulager les tensions musculaires',
-        image: require('../assets/massage.png')
+        description: 'Soulage les tensions musculaires',
+        image: require('../assets/massage.png'),
+        price: '280 MAD',
       },
       {
         title: 'Massage aux pierres chaudes',
-        description: 'Massage avec pierres chaudes pour relaxation profonde',
-        image: require('../assets/massage.png')
-      }
-    ]
+        description: 'Relaxation profonde avec chaleur',
+        image: require('../assets/massage.png'),
+        price: '350 MAD',
+      },
+    ],
   },
   {
     category: 'Coaching',
     items: [
       {
         title: 'Coaching de vie',
-        description: 'Accompagnement pour atteindre vos objectifs personnels',
-        image: require('../assets/coaching.png')
+        description: 'Atteignez vos objectifs personnels',
+        image: require('../assets/coaching.png'),
+        price: '400 MAD',
       },
       {
         title: 'Coaching sportif',
-        description: 'Entraînement personnalisé pour améliorer votre forme',
-        image: require('../assets/coaching.png')
+        description: 'Entraînement personnalisé pour progresser',
+        image: require('../assets/coaching.png'),
+        price: '350 MAD',
       },
       {
         title: 'Coaching nutritionnel',
-        description: 'Conseils pour une alimentation saine et équilibrée',
-        image: require('../assets/coaching.png')
-      }
-    ]
-  }
+        description: 'Conseils pour une alimentation équilibrée',
+        image: require('../assets/coaching.png'),
+        price: '300 MAD',
+      },
+    ],
+  },
 ];
 
 export default function CatalogueScreen() {
+  const [selectedFilter, setSelectedFilter] = useState('Tous');
+  const navigation = useNavigation();
+
+  // Filtrer les services selon le filtre choisi
+  const filteredServices =
+    selectedFilter === 'Tous'
+      ? services
+      : services.filter((section) => section.category === selectedFilter);
+
   return (
     <View style={styles.container}>
       <Text style={styles.header}>Catalogue</Text>
 
+      {/* Filtres horizontaux */}
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
         style={styles.filterScroll}
       >
         {filters.map((filter, index) => (
-          <TouchableOpacity key={index} style={styles.filterButton}>
-            <Text style={styles.filterText}>{filter}</Text>
+          <TouchableOpacity
+            key={index}
+            style={[
+              styles.filterButton,
+              selectedFilter === filter && styles.filterButtonActive,
+            ]}
+            onPress={() => setSelectedFilter(filter)}
+          >
+            <Text
+              style={[
+                styles.filterText,
+                selectedFilter === filter && styles.filterTextActive,
+              ]}
+            >
+              {filter}
+            </Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
 
+      {/* Services */}
       <ScrollView style={styles.scrollContent}>
-        {services.map((section, index) => (
+        {filteredServices.map((section, index) => (
           <View key={index}>
             <Text style={styles.sectionTitle}>{section.category}</Text>
             {section.items.map((item, idx) => (
-              <View key={idx} style={styles.card}>
+              <TouchableOpacity
+                key={idx}
+                style={styles.card}
+                onPress={() => navigation.navigate('ServiceDetail', { service: item })}
+              >
                 <Image source={item.image} style={styles.popularImage} />
                 <View style={styles.cardText}>
                   <Text style={styles.cardTitle}>{item.title}</Text>
                   <Text style={styles.cardDescription}>{item.description}</Text>
+                  <Text style={styles.price}>{item.price}</Text>
                 </View>
-              </View>
+              </TouchableOpacity>
             ))}
           </View>
         ))}
@@ -130,36 +173,50 @@ export default function CatalogueScreen() {
     </View>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: 15,
-    paddingTop: 50, // Pour éviter de coller en haut
+    paddingTop: 50,
   },
   header: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 15,
+    color: '#333',
   },
   filterScroll: {
     marginBottom: 20,
   },
   filterButton: {
     backgroundColor: '#f0f0f0',
-    paddingVertical: 8,
-    paddingHorizontal: 15,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
     borderRadius: 20,
     marginRight: 10,
   },
+  filterButtonActive: {
+    backgroundColor: '#556B2F',
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+  },
   filterText: {
     color: '#000',
-    fontSize: 14,
+    fontSize: 13,
+  },
+  filterTextActive: {
+    color: '#fff',
+    fontWeight: 'bold',
+    paddingVertical: 8,
+
   },
   sectionTitle: {
     fontSize: 20,
     fontWeight: 'bold',
     marginVertical: 10,
+    color: '#444',
   },
   card: {
     flexDirection: 'row',
@@ -167,6 +224,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#f9f9f9',
     borderRadius: 10,
     overflow: 'hidden',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   popularImage: {
     width: 100,
@@ -183,9 +244,16 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontSize: 16,
     marginBottom: 5,
+    color: '#222',
   },
   cardDescription: {
     color: '#555',
     fontSize: 14,
+  },
+  price: {
+    marginTop: 5,
+    fontWeight: 'bold',
+    fontSize: 15,
+    color: '#556B2F',
   },
 });

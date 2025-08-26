@@ -34,7 +34,7 @@ const MainTabNavigator = () => {
   listeners={({ navigation }) => ({
     tabPress: (e) => {
       e.preventDefault(); // empêche la navigation par défaut
-      navigation.navigate("Accueil", { autoFocusSearch: true }); // 👈 focus direct
+      navigation.navigate("Accueil", { autoFocusSearch: true }); // focus direct
     },
   })}/>
 
